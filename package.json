@@ -1,0 +1,25 @@
+{
+  "name": "websocketmixtape",
+  "version": "1.0.0",
+  "description": "The node server that deal with GPIO and websocket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olivier-sonrel/websocketMixtape.git"
+  },
+  "dependencies": {
+    "onoff": "^6.0.3",
+    "i2c-bus": "^5.2.2",
+    "socket.io": "^4.1.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olivier-sonrel/websocketMixtape/issues"
+  },
+  "homepage": "https://github.com/olivier-sonrel/websocketMixtape#readme"
+}
