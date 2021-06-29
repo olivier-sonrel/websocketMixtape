@@ -1,0 +1,41 @@
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
+
+const port = process.env.PORT || 8080;
+const index = require("./routes/index");
+
+const app = express();
+app.use(index);
+
+const server = http.createServer(app);
+
+const io = socketIo(server);
+
+// var Gpio = require('onoff').Gpio;
+// const i2c = require('i2c-bus');
+
+const ADS7830 = 0x4b;
+const CHANNELS = [0x84, 0xc4, 0x94, 0xd4, 0xa4, 0xe4, 0xb4, 0xf4];
+
+let interval;
+
+io.on("connection", (socket) => {
+  console.log("New client connected");
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(() => getApiAndEmit(socket), 1000);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+    clearInterval(interval);
+  });
+});
+
+const getApiAndEmit = socket => {
+  const response = new Date();
+  // Emitting a new message. Will be consumed by the client
+  socket.emit("FromAPI", response);
+};
+
+server.listen(port, () => console.log(`Listening on port ${port}`));
