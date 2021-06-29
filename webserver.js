@@ -24,6 +24,42 @@ const i2c = require('i2c-bus');
 const ADS7830 = 0x4b;
 const CHANNELS = [0x84, 0xc4, 0x94, 0xd4, 0xa4, 0xe4, 0xb4, 0xf4];
 
+io.sockets.on('connection', function (socket) {// WebSocket Connection
+    const i2c1 = i2c.openSync(1);
+    let dataX = 1;
+    let dataY = 1;
+    let lightvalue = 0; //static variable for current status
+
+    pushButton.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+        if (err) { //if an error
+            console.error('There was an error', err); //output error message to console
+            return;
+        }
+        lightvalue = value;
+        console.log('V',value);
+        socket.emit('light', lightvalue); //send button status to client
+    });
+
+    socket.on('light', function(data) { //get light switch status from client
+        lightvalue = data;
+        if (lightvalue != LED.readSync()) { //only change LED if status has changed
+            LED.writeSync(lightvalue); //turn LED on or off
+        }
+    });
+
+    setInterval(() => {
+        dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
+        dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
+        console.log('data X', dataX);
+        console.log('data Y', dataY);
+
+        let obj = {dataX: dataX, dataY: dataY};
+        socket.emit('Curl', obj);
+    }, 500);
+
+    i2c1.closeSync();
+});
+
 /*http.createServer (function(req, res) { //create server
     console.log(req.url);
     if(req.url.includes('/scripts/') || req.url.includes('/styles/') ) {
@@ -102,41 +138,7 @@ function handler (req, res) { //create server
 }
 
 
-io.sockets.on('connection', function (socket) {// WebSocket Connection
-  const i2c1 = i2c.openSync(1);
-    let dataX = 1;
-    let dataY = 1;
-    let lightvalue = 0; //static variable for current status
 
-  pushButton.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-    if (err) { //if an error
-      console.error('There was an error', err); //output error message to console
-      return;
-    }
-    lightvalue = value;
-    console.log('V',value);
-    socket.emit('light', lightvalue); //send button status to client
-  });
-
-  socket.on('light', function(data) { //get light switch status from client
-    lightvalue = data;
-    if (lightvalue != LED.readSync()) { //only change LED if status has changed
-      LED.writeSync(lightvalue); //turn LED on or off
-    }
-  });
-
-  setInterval(() => {       
-    dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
-    dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
-    console.log('data X', dataX);
-    console.log('data Y', dataY);
-
-      let obj = {dataX: dataX, dataY: dataY};
-      socket.emit('Curl', obj);
-  }, 500);
-
-  i2c1.closeSync();
-});
 
 //CLOSING PROCESS LEAVE IT
 process.on('SIGINT', function () { //on ctrl+c
