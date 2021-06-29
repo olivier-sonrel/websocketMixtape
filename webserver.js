@@ -5,7 +5,9 @@ const url = require('url');
 const path = require('path');
 const querystring = require('querystring');
 
-const io = require('socket.io')(http, {
+const io = require('socket.io')(http) //require socket.io module and pass the http object (server)
+
+/*const io = require('socket.io')(http, {
     cors: {
         origin: "http://localhost:8000",
         methods: ["GET", "POST"],
@@ -13,7 +15,7 @@ const io = require('socket.io')(http, {
         credentials: true
     },
     allowEIO3: true
-});
+});*/
 
 const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 const LED = new Gpio(26, 'out'); //use GPIO pin 4 as output
