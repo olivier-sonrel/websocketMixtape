@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Violent Theremin</title>
+
+	<link href="styles/normalize.css" rel="stylesheet" type="text/css">
+
+	<link href="styles/app.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+  <p class="start-message">Click on the browser window or press the tab key to start the app.</p>
+
+	<div class="app-contents">
+    <h1>Violent Theremin</h1>
+
+    <button class="mute" data-muted="false">Mute</button>
+    <button class="clear">Clear screen</button>
+    <p class="control-message">Use mouse or arrow keys to control theremin.</p>
+    <h1>Turn on the liiiiight</h1>
+    <p><input type="checkbox" id="light"></p>
+
+    <canvas class="canvas">
+      Your browser does not support HTML5 canvas
+    </canvas>
+	</div>
+
+  <!-- The following element pulls in the script for the default template functionality -->
+
+    <script src="scripts/install.js"></script>
+
+    <!-- Below is your custom application script -->
+
+    <script src="scripts/app.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script> <!-- include socket.io client side script -->
+<script>
+var socket = io(); //load socket.io-client and connect to the host that serves the page
+window.addEventListener("load", function(){ //when page loads
+  var lightbox = document.getElementById("light");
+  lightbox.addEventListener("change", function() { //add event listener for when checkbox changes
+    socket.emit("light", Number(this.checked)); //send button status to server (as 1 or 0)
+  });
+});
+
+socket.on('light', function(data) { //get button status from client
+  document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
+  socket.emit("light", data); //send push button status to back to server
+});
+
+socket.on('CurlX', function(dataX) { //get button status from client
+  console.log('data X', dataX);
+  //socket.emit("CurlX", data); //send push button status to back to server
+});
+
+//socket.on('CurlY', function (dataY) { //get button status from client
+//  console.log(dataY);
+  //socket.emit("CurlY", data); //send push button status to back to server
+//});
+//TODO socket.on('CurlY');
+</script>
+
+</body>
+</html>
