@@ -30,6 +30,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     const i2c1 = i2c.openSync(1);
     let dataX = 1;
     let dataY = 1;
+    console.log('data X', dataX);
+    console.log('data Y', dataY);
     let lightvalue = 0; //static variable for current status
 
     pushButton.watch(function (err, value) { //Watch for hardware interrupts on pushButton
