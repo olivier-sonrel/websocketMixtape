@@ -24,6 +24,19 @@ const i2c = require('i2c-bus');
 const ADS7830 = 0x4b;
 const CHANNELS = [0x84, 0xc4, 0x94, 0xd4, 0xa4, 0xe4, 0xb4, 0xf4];
 
+http.listen(8080); //listen to port 8080
+function handler (req, res) { //create server
+    fs.readFile(__dirname + '/public/index.html', function(err, data) { //read file index.html in public folder
+        if (err) {
+            res.writeHead(404, {'Content-Type': 'text/html'}); //display 404 on error
+            return res.end("404 Not Found");
+        }
+        res.writeHead(200, {'Content-Type': 'text/html'}); //write HTML
+        res.write(data); //write data from index.html
+        return res.end();
+    });
+}
+
 io.sockets.on('connection', function (socket) {// WebSocket Connection
     const i2c1 = i2c.openSync(1);
     let dataX = 1;
@@ -126,18 +139,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     });*!/
 }).listen(8080);*/
 
-http.listen(8080); //listen to port 8080
-function handler (req, res) { //create server
-    fs.readFile(__dirname + '/public/index.html', function(err, data) { //read file index.html in public folder
-        if (err) {
-            res.writeHead(404, {'Content-Type': 'text/html'}); //display 404 on error
-            return res.end("404 Not Found");
-        }
-        res.writeHead(200, {'Content-Type': 'text/html'}); //write HTML
-        res.write(data); //write data from index.html
-        return res.end();
-    });
-}
+
 
 
 
