@@ -5,9 +5,7 @@ const url = require('url');
 const path = require('path');
 const querystring = require('querystring');
 
-const io = require('socket.io')(http) //require socket.io module and pass the http object (server)
-
-/*const io = require('socket.io')(http, {
+const io = require('socket.io')(http, {
     cors: {
         origin: "http://localhost:8000",
         methods: ["GET", "POST"],
@@ -15,7 +13,7 @@ const io = require('socket.io')(http) //require socket.io module and pass the ht
         credentials: true
     },
     allowEIO3: true
-});*/
+});
 
 const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 const LED = new Gpio(26, 'out'); //use GPIO pin 4 as output
@@ -34,6 +32,16 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     console.log('data Y', dataY);
     let lightvalue = 0; //static variable for current status
 
+    setInterval(() => {
+        dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
+        dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
+        console.log('data X', dataX);
+        console.log('data Y', dataY);
+
+        let obj = {dataX: dataX, dataY: dataY};
+        socket.emit('Curl', obj);
+    }, 500);
+
     pushButton.watch(function (err, value) { //Watch for hardware interrupts on pushButton
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
@@ -50,16 +58,6 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             LED.writeSync(lightvalue); //turn LED on or off
         }
     });
-
-    setInterval(() => {
-        dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
-        dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
-        console.log('data X', dataX);
-        console.log('data Y', dataY);
-
-        let obj = {dataX: dataX, dataY: dataY};
-        socket.emit('Curl', obj);
-    }, 500);
 
     i2c1.closeSync();
 });
