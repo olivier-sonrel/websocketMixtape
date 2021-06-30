@@ -231,20 +231,20 @@ var uu = function(data) {
       gainNode.connect(audioContext.destination);
       sourceNode.type = 'sine'; //"sine", "square", "sawtooth", "triangle" and "custom"
       sourceNode.frequency.value = data;
+      console.log("alloo",  sourceNode.frequency.value);
       sourceNode.detune.value = 10080;
       sourceNode.start(0);
-      gainNode.connect(audioContext.destination);
-      if (mute.getAttribute('data-muted') === 'false') {
-        //sourceNode.stop();
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        mute.setAttribute('data-muted', 'true');
-        mute.innerHTML = "Unmute";
-      } else {
-        console.log("allo");
-        gainNode.gain.setValueAtTime(1, audioContext.currentTime);
-        mute.setAttribute('data-muted', 'false');
-        mute.innerHTML = "Mute";
-      };
+      // if (mute.getAttribute('data-muted') === 'false') {
+      //   //sourceNode.stop();
+      //   gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      //   mute.setAttribute('data-muted', 'true');
+      //   mute.innerHTML = "Unmute";
+      // } else {
+      //   console.log("allo");
+      //   gainNode.gain.setValueAtTime(1, audioContext.currentTime);
+      //   mute.setAttribute('data-muted', 'false');
+      //   mute.innerHTML = "Mute";
+      // };
     } 
 }
 
