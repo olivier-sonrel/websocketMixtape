@@ -80,7 +80,7 @@ io.on('connection', function (socket) {
             
             //   var obj = {dataX: dataX, dataY: dataY};
               socket.emit('Curl', dataX);
-            }, 500);
+            }, 100);
          
             i2c1.closeSync();
    // socket.emit('allo', { hello: 'world' });
