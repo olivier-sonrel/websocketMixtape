@@ -228,7 +228,7 @@ var uu = function(data) {
 
       // connect oscillator to gain node to speakers
      
-      sourceNode.type = 'sine'; //"sine", "square", "sawtooth", "triangle" and "custom"
+      sourceNode.type = 'sqare'; //"sine", "square", "sawtooth", "triangle" and "custom"
       sourceNode.frequency.value = data;
       console.log("alloo",  sourceNode.frequency.value);
       sourceNode.detune.value = 10080;
