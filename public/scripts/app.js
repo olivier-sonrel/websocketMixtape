@@ -224,16 +224,22 @@ var uu = function(data) {
     mute.onclick = function() {
       let audioContext = new (window.AudioContext || window.webkitAudioContext)();
       let sourceNode = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      // connect oscillator to gain node to speakers
+      sourceNode.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
       if (mute.getAttribute('data-muted') === 'false') {
-        sourceNode.disconnect(audioContext.destination);
-        sourceNode.stop();
+        gainNode.disconnect(audioContext.destination);
+        //sourceNode.stop();
         mute.setAttribute('data-muted', 'true');
         mute.innerHTML = "Unmute";
       } else {
         sourceNode.type = 'square'; //"sine", "square", "sawtooth", "triangle" and "custom"
         sourceNode.frequency.value = data;
         sourceNode.detune.value = 10080;
-        sourceNode.connect(audioContext.destination);
+        gainNode.connect(audioContext.destination);
         sourceNode.start();
         mute.setAttribute('data-muted', 'false');
         mute.innerHTML = "Mute";
