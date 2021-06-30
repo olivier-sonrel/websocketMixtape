@@ -233,15 +233,15 @@ var uu = function(data) {
       sourceNode.frequency.value = data;
       sourceNode.detune.value = 10080;
       sourceNode.start(0);
-      gainNode.gain.value = 100;
+      gainNode.connect(audioContext.destination);
       if (mute.getAttribute('data-muted') === 'false') {
-        gainNode.disconnect(audioContext.destination);
         //sourceNode.stop();
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
         mute.setAttribute('data-muted', 'true');
         mute.innerHTML = "Unmute";
       } else {
         console.log("allo");
-        gainNode.connect(audioContext.destination);
+        gainNode.gain.setValueAtTime(1, audioContext.currentTime);
         mute.setAttribute('data-muted', 'false');
         mute.innerHTML = "Mute";
       };
