@@ -198,8 +198,8 @@ var socket = io.connect('http://localhost:8080');
 
 socket.on('Curl', function(data) { //get button status from client*
     console.log("ee", data);
-    dataX = data.dataX;
-    uu(dataX);
+    // dataX = data.dataX;
+    uu(data);
   // potX = data.dataX;
   // potY = data.dataY;
   //console.log('dataX', data.dataX);
