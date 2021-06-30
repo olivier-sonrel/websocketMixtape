@@ -217,6 +217,7 @@ socket.on('Curl', function(data) { //get button status from client*
       sourceNode.connect(audioContext.destination);
       // sourceNode.connect(gainNode);
       // gainNode.connect(audioContext.destination);
+      sourceNode.stop();
       sourceNode.start();
       window.setTimeout(function() { sourceNode.stop(); trig = false; }, 5000);
       // if (mute.getAttribute('data-muted') === 'false') {
