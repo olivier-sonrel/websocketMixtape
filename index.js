@@ -59,9 +59,9 @@ app.get('/json', function (req, res) {
    res.status(200).json({"message":"ok"})
 })
 
-// var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 
-// const i2c = require('i2c-bus');
+const i2c = require('i2c-bus');
 
 const ADS7830 = 0x4b;
 const CHANNELS = [0x84, 0xc4, 0x94, 0xd4, 0xa4, 0xe4, 0xb4, 0xf4];
