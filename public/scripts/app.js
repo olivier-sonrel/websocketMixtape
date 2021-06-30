@@ -228,14 +228,15 @@ var uu = function(data) {
 
       // connect oscillator to gain node to speakers
      
-      sourceNode.type = 'sqare'; //"sine", "square", "sawtooth", "triangle" and "custom"
+      sourceNode.type = 'square'; //"sine", "square", "sawtooth", "triangle" and "custom"
       sourceNode.frequency.value = data;
       console.log("alloo",  sourceNode.frequency.value);
-      sourceNode.detune.value = 10080;
+      sourceNode.detune.value = 1008;
       sourceNode.connect(audioContext.destination);
       // sourceNode.connect(gainNode);
       // gainNode.connect(audioContext.destination);
       sourceNode.start();
+      window.setTimeout(function() { sourceNode.stop(); }, 5000);
       // if (mute.getAttribute('data-muted') === 'false') {
       //   //sourceNode.stop();
       //   gainNode.gain.setValueAtTime(0, audioContext.currentTime);

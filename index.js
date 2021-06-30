@@ -69,7 +69,7 @@ const CHANNELS = [0x84, 0xc4, 0x94, 0xd4, 0xa4, 0xe4, 0xb4, 0xf4];
 // établissement de la connexion
 io.on('connection', function (socket) {
             const i2c1 = i2c.openSync(1);
-            var dataX=1;
+            var dataX = 1;
             // var dataY = 1;
          
             setInterval(() => {       
