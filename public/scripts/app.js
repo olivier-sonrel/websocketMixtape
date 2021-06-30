@@ -206,29 +206,9 @@ socket.on('Curl', function(data) { //get button status from client*
   //console.log('dataY', data.dataY);
 });
 
-var audioContext = '';
-var sourceNode = '';
-
-  // mute button
-  const mute = document.querySelector('.mute');
-
-  mute.onclick = function() {
-    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    var sourceNode = audioContext.createOscillator();
-    if (mute.getAttribute('data-muted') === 'false') {
-      sourceNode.disconnect(audioContext.destination);
-      mute.setAttribute('data-muted', 'true');
-      mute.innerHTML = "Unmute";
-    } else {
-      sourceNode.connect(audioContext.destination);
-      mute.setAttribute('data-muted', 'false');
-      mute.innerHTML = "Mute";
-    };
-  }
-
 var uu = function(data) {
-    // let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    // let sourceNode = audioContext.createOscillator();
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let sourceNode = audioContext.createOscillator();
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     sourceNode = audioContext.createOscillator();
 
@@ -236,10 +216,26 @@ var uu = function(data) {
     sourceNode.frequency.value = data;
     sourceNode.detune.value = 10080; // Ses valeur sont comprises entre -1200 et 1200.
     //Connect the source to the speakers
-    sourceNode.connect(audioContext.destination);
+    // sourceNode.connect(audioContext.destination);
     //Make the sound audible for 100 ms
-    sourceNode.start();
-    // window.setTimeout(function() { sourceNode.stop(); }, 10000);    
+    // sourceNode.start();
+    // window.setTimeout(function() { sourceNode.stop(); }, 10000);
+      // mute button
+    const mute = document.querySelector('.mute');
+
+    mute.onclick = function() {
+      if (mute.getAttribute('data-muted') === 'false') {
+        sourceNode.disconnect(audioContext.destination);
+        sourceNode.stop();
+        mute.setAttribute('data-muted', 'true');
+        mute.innerHTML = "Unmute";
+      } else {
+        sourceNode.connect(audioContext.destination);
+        sourceNode.start();
+        mute.setAttribute('data-muted', 'false');
+        mute.innerHTML = "Mute";
+      };
+    } 
 }
 
 
