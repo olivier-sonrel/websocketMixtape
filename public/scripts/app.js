@@ -201,9 +201,13 @@ socket.on('Curl', function(data) { //get button status from client*
     // dataX = data.dataX;
     const mute = document.querySelector('.mute');
     mute.onclick = function() {
-      trig = true
+      trig = true;
     }
     if(trig) {
+      if(audioContext) {
+        sourceNode.stop();
+      }
+      else {
       var audioContext = new (window.AudioContext || window.webkitAudioContext)();
       var sourceNode = audioContext.createOscillator();
       //var gainNode = audioContext.createGain();
@@ -217,7 +221,6 @@ socket.on('Curl', function(data) { //get button status from client*
       sourceNode.connect(audioContext.destination);
       // sourceNode.connect(gainNode);
       // gainNode.connect(audioContext.destination);
-      sourceNode.stop();
       sourceNode.start();
       window.setTimeout(function() { sourceNode.stop(); trig = false; }, 5000);
       // if (mute.getAttribute('data-muted') === 'false') {
@@ -231,6 +234,7 @@ socket.on('Curl', function(data) { //get button status from client*
       //   mute.setAttribute('data-muted', 'false');
       //   mute.innerHTML = "Mute";
       // };
+      }
     }
     //uu(data);
   // potX = data.dataX;
