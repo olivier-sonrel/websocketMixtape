@@ -68,27 +68,27 @@ const CHANNELS = [0x84, 0xc4, 0x94, 0xd4, 0xa4, 0xe4, 0xb4, 0xf4];
 
 // établissement de la connexion
 io.on('connection', function (socket) {
-            // const i2c1 = i2c.openSync(1);
-            // var dataX=1;
-            // // var dataY = 1;
+            const i2c1 = i2c.openSync(1);
+            var dataX=1;
+            // var dataY = 1;
          
-            // setInterval(() => {       
-            //   dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
-            // //   dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
-            //   console.log('data X', dataX);
-            // //   console.log('data Y', dataY);
+            setInterval(() => {       
+              dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
+            //   dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
+              console.log('data X', dataX);
+            //   console.log('data Y', dataY);
             
-            // //   var obj = {dataX: dataX, dataY: dataY};
-            //   socket.emit('Curl', dataX);
-            // }, 500);
+            //   var obj = {dataX: dataX, dataY: dataY};
+              socket.emit('Curl', dataX);
+            }, 500);
          
-            // i2c1.closeSync();
+            i2c1.closeSync();
    // socket.emit('allo', { hello: 'world' });
    // console.log(`Connecté au client ${socket.id}`);
    // // socket.on('action', function () {
    // //    console.log('A user disconnected');
-      var xxx = 1000;
-      socket.emit('Curl', xxx);
+      // var xxx = 1000;
+      // socket.emit('Curl', xxx);
 })
 
 // on change app par server
