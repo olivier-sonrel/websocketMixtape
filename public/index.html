@@ -55,17 +55,17 @@
     //   document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
     //   socket.emit("light", data); //send push button status to back to server
     // });
-    var socket = io.connect('http://localhost:8080');
-    // socket.on('allo', function(datax) { //get button status from client*
-    //   console.log("allo", datax);
+    // var socket = io.connect('http://localhost:8080');
+    // // socket.on('allo', function(datax) { //get button status from client*
+    // //   console.log("allo", datax);
+    // // });
+    // socket.on('Curl', function(data) { //get button status from client*
+    //   console.log("eee", data);
+    //   // potX = data.dataX;
+    //   // potY = data.dataY;
+    //   //console.log('dataX', data.dataX);
+    //   //console.log('dataY', data.dataY);
     // });
-    socket.on('Curl', function(data) { //get button status from client*
-      console.log("eee", data);
-      // potX = data.dataX;
-      // potY = data.dataY;
-      //console.log('dataX', data.dataX);
-      //console.log('dataY', data.dataY);
-    });
   </script>
 <script src="/scripts/app.js"></script>
   

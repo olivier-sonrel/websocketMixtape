@@ -198,7 +198,8 @@ var socket = io.connect('http://localhost:8080');
 
 socket.on('Curl', function(data) { //get button status from client*
     console.log("ee", data);
-    uu(data);
+    dataX = data.dataX;
+    uu(dataX);
   // potX = data.dataX;
   // potY = data.dataY;
   //console.log('dataX', data.dataX);
@@ -208,7 +209,7 @@ socket.on('Curl', function(data) { //get button status from client*
 var uu = function(data) {
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let sourceNode = audioContext.createOscillator();
-    sourceNode.type = 'sqare'; //"sine", "square", "sawtooth", "triangle" and "custom"
+    sourceNode.type = 'square'; //"sine", "square", "sawtooth", "triangle" and "custom"
     sourceNode.frequency.value = data;
     sourceNode.detune.value = 10080; // Ses valeur sont comprises entre -1200 et 1200.
     //Connect the source to the speakers
