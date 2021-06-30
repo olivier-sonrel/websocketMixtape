@@ -222,9 +222,9 @@ var uu = function(data) {
     const mute = document.querySelector('.mute');
 
     mute.onclick = function() {
-      let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      let sourceNode = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
+      var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      var sourceNode = audioContext.createOscillator();
+      var gainNode = audioContext.createGain();
 
       // connect oscillator to gain node to speakers
       sourceNode.connect(gainNode);
@@ -236,6 +236,7 @@ var uu = function(data) {
         mute.setAttribute('data-muted', 'true');
         mute.innerHTML = "Unmute";
       } else {
+        console.log("allo");
         sourceNode.type = 'sine'; //"sine", "square", "sawtooth", "triangle" and "custom"
         sourceNode.frequency.value = data;
         sourceNode.detune.value = 10080;
