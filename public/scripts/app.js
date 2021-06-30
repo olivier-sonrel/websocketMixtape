@@ -224,7 +224,7 @@ var uu = function(data) {
     mute.onclick = function() {
       var audioContext = new (window.AudioContext || window.webkitAudioContext)();
       var sourceNode = audioContext.createOscillator();
-      var gainNode = audioContext.createGain();
+      //var gainNode = audioContext.createGain();
 
       // connect oscillator to gain node to speakers
      
@@ -232,9 +232,10 @@ var uu = function(data) {
       sourceNode.frequency.value = data;
       console.log("alloo",  sourceNode.frequency.value);
       sourceNode.detune.value = 10080;
-      sourceNode.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      sourceNode.start(0);
+      sourceNode.connect(audioContext.destination);
+      // sourceNode.connect(gainNode);
+      // gainNode.connect(audioContext.destination);
+      sourceNode.start();
       // if (mute.getAttribute('data-muted') === 'false') {
       //   //sourceNode.stop();
       //   gainNode.gain.setValueAtTime(0, audioContext.currentTime);
