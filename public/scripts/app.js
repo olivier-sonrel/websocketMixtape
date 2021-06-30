@@ -206,9 +206,14 @@ socket.on('Curl', function(data) { //get button status from client*
   //console.log('dataY', data.dataY);
 });
 
+var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+var sourceNode = audioContext.createOscillator();
 var uu = function(data) {
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let sourceNode = audioContext.createOscillator();
+    // let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // let sourceNode = audioContext.createOscillator();
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    sourceNode = audioContext.createOscillator();
+    
     sourceNode.type = ''; //"sine", "square", "sawtooth", "triangle" and "custom"
     sourceNode.frequency.value = data;
     sourceNode.detune.value = 10080; // Ses valeur sont comprises entre -1200 et 1200.
