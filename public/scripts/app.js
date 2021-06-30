@@ -199,6 +199,7 @@ var trig = false;
 socket.on('Curl', function(data) { //get button status from client*
     console.log("ee", data);
     // dataX = data.dataX;
+    const mute = document.querySelector('.mute');
     mute.onclick = function() {
       trig = true
     }
