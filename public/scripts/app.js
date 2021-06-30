@@ -233,6 +233,7 @@ var uu = function(data) {
       sourceNode.frequency.value = data;
       sourceNode.detune.value = 10080;
       sourceNode.start(0);
+      gainNode.gain.value = 100;
       if (mute.getAttribute('data-muted') === 'false') {
         gainNode.disconnect(audioContext.destination);
         //sourceNode.stop();
