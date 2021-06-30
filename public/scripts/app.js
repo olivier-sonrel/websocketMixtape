@@ -195,11 +195,42 @@ var socket = io.connect('http://localhost:8080');
 // socket.on('allo', function(datax) { //get button status from client*
 //   console.log("allo", datax);
 // });
-
+var trig = false;
 socket.on('Curl', function(data) { //get button status from client*
     console.log("ee", data);
     // dataX = data.dataX;
-    uu(data);
+    mute.onclick = function() {
+      trig = true
+    }
+    if(trig) {
+      var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      var sourceNode = audioContext.createOscillator();
+      //var gainNode = audioContext.createGain();
+
+      // connect oscillator to gain node to speakers
+     
+      sourceNode.type = 'square'; //"sine", "square", "sawtooth", "triangle" and "custom"
+      sourceNode.frequency.value = data;
+      console.log("alloo",  sourceNode.frequency.value);
+      sourceNode.detune.value = 1008;
+      sourceNode.connect(audioContext.destination);
+      // sourceNode.connect(gainNode);
+      // gainNode.connect(audioContext.destination);
+      sourceNode.start();
+      window.setTimeout(function() { sourceNode.stop(); trig = false; }, 5000);
+      // if (mute.getAttribute('data-muted') === 'false') {
+      //   //sourceNode.stop();
+      //   gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      //   mute.setAttribute('data-muted', 'true');
+      //   mute.innerHTML = "Unmute";
+      // } else {
+      //   console.log("allo");
+      //   gainNode.gain.setValueAtTime(1, audioContext.currentTime);
+      //   mute.setAttribute('data-muted', 'false');
+      //   mute.innerHTML = "Mute";
+      // };
+    }
+    //uu(data);
   // potX = data.dataX;
   // potY = data.dataY;
   //console.log('dataX', data.dataX);
