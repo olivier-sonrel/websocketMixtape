@@ -236,7 +236,7 @@ var uu = function(data) {
         mute.setAttribute('data-muted', 'true');
         mute.innerHTML = "Unmute";
       } else {
-        sourceNode.type = 'square'; //"sine", "square", "sawtooth", "triangle" and "custom"
+        sourceNode.type = ''; //"sine", "square", "sawtooth", "triangle" and "custom"
         sourceNode.frequency.value = data;
         sourceNode.detune.value = 10080;
         gainNode.connect(audioContext.destination);
