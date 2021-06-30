@@ -205,6 +205,7 @@ socket.on('Curl', function(data) { //get button status from client*
     }
     if(trig) {
       if(audioContext) {
+        console.log("tt");
         sourceNode.stop();
       }
       else {
@@ -222,7 +223,7 @@ socket.on('Curl', function(data) { //get button status from client*
       // sourceNode.connect(gainNode);
       // gainNode.connect(audioContext.destination);
       sourceNode.start();
-      window.setTimeout(function() { sourceNode.stop(); trig = false; }, 5000);
+      window.setTimeout(function() { sourceNode.stop(); trig = true; }, 1000);
       // if (mute.getAttribute('data-muted') === 'false') {
       //   //sourceNode.stop();
       //   gainNode.gain.setValueAtTime(0, audioContext.currentTime);
