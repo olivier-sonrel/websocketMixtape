@@ -209,12 +209,28 @@ socket.on('Curl', function(data) { //get button status from client*
 var uu = function(data) {
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let sourceNode = audioContext.createOscillator();
-    sourceNode.type = 'square'; //"sine", "square", "sawtooth", "triangle" and "custom"
+    sourceNode.type = ''; //"sine", "square", "sawtooth", "triangle" and "custom"
     sourceNode.frequency.value = data;
     sourceNode.detune.value = 10080; // Ses valeur sont comprises entre -1200 et 1200.
     //Connect the source to the speakers
     sourceNode.connect(audioContext.destination);
     //Make the sound audible for 100 ms
     sourceNode.start();
-    window.setTimeout(function() { sourceNode.stop(); }, 1000);    
+    // window.setTimeout(function() { sourceNode.stop(); }, 10000);    
 }
+
+
+  // mute button
+  const mute = document.querySelector('.mute');
+
+  mute.onclick = function() {
+    if (mute.getAttribute('data-muted') === 'false') {
+      sourceNode.disconnect(audioContext.destination);
+      mute.setAttribute('data-muted', 'true');
+      mute.innerHTML = "Unmute";
+    } else {
+      sourceNode.connect(audioContext.destination);
+      mute.setAttribute('data-muted', 'false');
+      mute.innerHTML = "Mute";
+    };
+  }

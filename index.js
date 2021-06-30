@@ -87,7 +87,7 @@ io.on('connection', function (socket) {
    // console.log(`Connecté au client ${socket.id}`);
    // // socket.on('action', function () {
    // //    console.log('A user disconnected');
-      var xxx = 3000;
+      var xxx = 1000;
       socket.emit('Curl', xxx);
 })
 
