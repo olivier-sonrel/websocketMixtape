@@ -1,11 +1,21 @@
+//----serveur-const---
 const express = require("express");
 const cors = require('cors');
 const http = require("http");
 const socketIo = require("socket.io");
 const port = process.env.PORT || 4001;
 const index = require("./routes/index");
-
+const fs = require('fs'); //require filesystem module
 const app = express();
+
+//----electric-const---
+const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+const LED = new Gpio(26, 'out'); //use GPIO pin 4 as output
+const pushButton = new Gpio(17, 'in', 'both'); //use GPIO pin 17 as input, and 'both' button presses, and releases should be handled
+
+const i2c = require('i2c-bus');
+const ADS7830 = 0x4b;
+const CHANNELS = [0x84, 0xc4, 0x94, 0xd4, 0xa4, 0xe4, 0xb4, 0xf4];
 
 app.use(cors());
 
@@ -35,6 +45,10 @@ const io = socketIo(server, {
 let interval;
 
 io.on("connection", (socket) => {
+  //const i2c1 = i2c.openSync(1);
+/*  let dataX = 1;
+  let dataY = 1;*/
+  let lightvalue = 0; //static variable for current status
   console.log("New client connected");
   if (interval) {
     clearInterval(interval);
@@ -47,7 +61,13 @@ io.on("connection", (socket) => {
 });
 
 const getApiAndEmit = socket => {
-  const response = new Date();
+  const now = new Date();
+  const i2c1 = i2c.openSync(1);
+  let dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
+  let dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
+  console.log('data X', dataX);
+  console.log('data Y', dataY);
+  let response = {now: now, dataX: dataX, dataY: dataY};
   console.log(response);
   // Emitting a new message. Will be consumed by the client
   socket.emit("FromAPI", response);
