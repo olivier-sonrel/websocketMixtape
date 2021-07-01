@@ -2,19 +2,13 @@ const express = require("express");
 const cors = require('cors');
 const http = require("http");
 const socketIo = require("socket.io");
-
 const port = process.env.PORT || 4001;
-//const port = 4001;
 const index = require("./routes/index");
 
 const app = express();
-/*app.options('*', cors())*/
+
 app.use(cors());
-/*app.head("/simple-cors", cors(), (req, res) => {
-  console.info("HEAD /simple-cors");
-  res.sendStatus(204);
-});*/
-//app.use(index);
+
 app.use((req,res, next)=>{
   res.setHeader('Access-Control-Allow-Origin',"*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -23,9 +17,7 @@ app.use((req,res, next)=>{
 
 const server = http.createServer(app);
 
-//const io = socketIo(server);
-
-const io = require("socket.io")(server, {
+const io = socketIo(server, {
   cors:{
     origins: ["*"],
 
