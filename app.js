@@ -67,10 +67,10 @@ const getApiAndEmit = socket => {
   let dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
   console.log('data X', dataX);
   console.log('data Y', dataY);
-  let response = {now: now, dataX: dataX, dataY: dataY};
-  console.log(response);
+  let data = {now: now, dataX: dataX, dataY: dataY};
+  console.log(data);
   // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response);
+  socket.emit("FromAPI", data);
 };
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
