@@ -5,7 +5,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const port = process.env.PORT || 4001;
 const index = require("./routes/index");
-const fs = require('fs'); //require filesystem module
+//const fs = require('fs'); //require filesystem module
 const app = express();
 
 //----electric-const---
