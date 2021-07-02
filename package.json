@@ -2,7 +2,7 @@
   "name": "websocketmixtape",
   "version": "1.0.0",
   "description": "The node server that deal with GPIO and websocket",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,8 +11,10 @@
     "url": "git+https://github.com/olivier-sonrel/websocketMixtape.git"
   },
   "dependencies": {
-    "onoff": "^6.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "i2c-bus": "^5.2.2",
+    "onoff": "^6.0.3",
     "socket.io": "^4.1.2"
   },
   "keywords": [],
