@@ -76,40 +76,26 @@ const getApiAndEmit = socket => {
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
 //upload server
-const httpFile = require("http");
-const fs = require('fs'); //require filesystem module
-const path = require('path');
-const directoryPath = path.join(__dirname, './public/samples');
+const upload = express();
+const fileupload = require("express-fileupload");
 
-httpFile.createServer(function (req, res) {
-  if (req.url === '/localList') {
-    fs.readdir(directoryPath, function (err, files) {
-      //handling error
-      if (err) {
-        return res.write('Unable to scan directory: ' + err);
-        res.end();
-      }
-      //listing all files using forEach
-      files.forEach(function (file) {
-        // Do whatever you want to do with the file
-        res.write(file);
-      });
-      res.end();
-    });
-  } else if (req.url === '/localupload') {
-    const form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-      const oldpath = files.filetoupload.path;
-      const newpath = './public/samples/' + files.filetoupload.name;
-      fs.rename(oldpath, newpath, function (err) {
-        if (err) throw err;
-        res.write('File uploaded and moved!');
-        res.end();
-      });
-    });
-  } else {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('wrong pass');
-    return res.end();
-  }
-}).listen(5000);
+upload.use(cors());
+upload.use(fileupload());
+upload.use(express.static("files"));
+
+upload.post("/local_upload", (req, res) => {
+  const newpath = __dirname + "/public/samples/";
+  const file = req.files.file;
+  const filename = file.name;
+
+  file.mv(`${newpath}${filename}`, (err) => {
+    if (err) {
+      res.status(500).send({ message: "File upload failed", code: 200 });
+    }
+    res.status(200).send({ message: "File Uploaded", code: 200 });
+  });
+});
+
+upload.listen(5000, () => {
+  console.log("Server running successfully on 3000");
+});

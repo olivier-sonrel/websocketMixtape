@@ -13,6 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "i2c-bus": "^5.2.2",
     "onoff": "^6.0.3",
     "socket.io": "^4.1.2"
