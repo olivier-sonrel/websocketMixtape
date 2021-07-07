@@ -90,11 +90,13 @@ httpFile.createServer(function (req, res) {
         res.end();
       }
       //listing all files using forEach
+      let filesListe = [];
       files.forEach(function (file) {
         // Do whatever you want to do with the file
-        res.write(file);
-        res.end();
+        filesListe.push(file);
       });
+      res.write(filesListe.toString());
+      res.end();
     });
   } else if (req.url == '/fileupload') {
     const form = new formidable.IncomingForm();
