@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/olivier-sonrel/websocketMixtape/issues"
   },
-  "homepage": "https://github.com/olivier-sonrel/websocketMixtape#readme"
+  "homepage": "https://github.com/olivier-sonrel/websocketMixtape#readme",
+  "devDependencies": {
+    "formidable": "^1.2.2"
+  }
 }
