@@ -82,7 +82,7 @@ const path = require('path');
 const directoryPath = path.join(__dirname, './public/samples');
 
 httpFile.createServer(function (req, res) {
-  if (req.url == '/filesList') {
+  if (req.url === '/localList') {
     fs.readdir(directoryPath, function (err, files) {
       //handling error
       if (err) {
@@ -90,15 +90,13 @@ httpFile.createServer(function (req, res) {
         res.end();
       }
       //listing all files using forEach
-      let filesListe = [];
       files.forEach(function (file) {
         // Do whatever you want to do with the file
-        filesListe.push(file);
+        res.write(file);
       });
-      res.write(filesListe.toString());
       res.end();
     });
-  } else if (req.url == '/fileupload') {
+  } else if (req.url === '/localupload') {
     const form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
       const oldpath = files.filetoupload.path;
@@ -111,10 +109,7 @@ httpFile.createServer(function (req, res) {
     });
   } else {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<form action="fileupload" method="post" enctype="multipart/form-data">');
-    res.write('<input type="file" name="filetoupload"><br>');
-    res.write('<input type="submit">');
-    res.write('</form>');
+    res.write('wrong pass');
     return res.end();
   }
 }).listen(5000);
