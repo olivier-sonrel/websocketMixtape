@@ -77,14 +77,16 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 //upload server
 const upload = express();
-const fileupload = require("express-fileupload");
+const fileUpload = require("express-fileupload");
+const fs = require('fs');
+const newpath = __dirname + "/public/samples/";
+const directoryPath = newpath;
 
 upload.use(cors());
-upload.use(fileupload());
+upload.use(fileUpload());
 upload.use(express.static("files"));
 
 upload.post("/local_upload", (req, res) => {
-  const newpath = __dirname + "/public/samples/";
   const file = req.files.file;
   const filename = file.name;
 
@@ -96,7 +98,21 @@ upload.post("/local_upload", (req, res) => {
   });
 });
 
-
+upload.post("/local_list", (req, res) => {
+    fs.readdir(directoryPath, (err, files) => {
+      //handling error
+      if (err) {
+        res.status(500).send({message: 'Unable to scan directory: ' + err, code: 200});
+        console.log('Unable to scan directory: ' + err);
+      } else {
+        //listing all files using forEach
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        let filesData = [];
+        files.forEach(file => filesData.push(directoryPath + file));
+        res.end(JSON.stringify(filesData));
+      }
+    });
+});
 
 upload.listen(5000, () => {
   console.log("Filesystem running successfully on 5000");
