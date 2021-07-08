@@ -46,8 +46,8 @@ let interval;
 
 io.on("connection", (socket) => {
   //const i2c1 = i2c.openSync(1);
-/!*  let dataX = 1;
-  let dataY = 1;*!/
+  // let dataX = 1;
+  // let dataY = 1;
   let lightvalue = 0; //static variable for current status
   console.log("New client connected");
   if (interval) {
@@ -63,14 +63,49 @@ io.on("connection", (socket) => {
 const getApiAndEmit = socket => {
   const now = new Date();
   const i2c1 = i2c.openSync(1);
-  let dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
-  let dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
-  console.log('data X', dataX);
-  console.log('data Y', dataY);
-  let data = {now: now, dataX: dataX, dataY: dataY};
-  console.log(data);
+  // let dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]) - 5911) / 30;
+  // let dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
+  // console.log('data X', dataX);
+  // console.log('data Y', dataY);
+  // let data = {now: now, dataX: dataX, dataY: dataY};
+  // console.log(data);
+  let dataX = i2c1.readWordSync(ADS7830, CHANNELS[0]);
+
+  const pigpio = require('pigpio');
+  const Gpio = pigpio.Gpio;
+
+  const outPin = 17;
+
+  // const output = new Gpio(outPin, {mode: Gpio.OUTPUT});
+  const output = new Gpio(outPin, {mode: dataX});
+  console.log('data X', output);
+
+  output.digitalWrite(0);
+  pigpio.waveClear();
+
+  let waveform = [];
+
+  for (let x = 0; x < 20; x++) {
+    if (x % 2 === 1) {
+      waveform.push({ gpioOn: outPin, gpioOff: 0, usDelay: x + 1 });
+    } else {
+      waveform.push({ gpioOn: 0, gpioOff: outPin, usDelay: x + 1 });
+    }
+  }
+
+  pigpio.waveAddGeneric(waveform);
+
+  let waveId = pigpio.waveCreate();
+
+  if (waveId >= 0) {
+    pigpio.waveTxSend(waveId, pigpio.WAVE_MODE_ONE_SHOT);
+  }
+
+  while (pigpio.waveTxBusy()) {}
+
+  pigpio.waveDelete(waveId)
   // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", data);
+  socket.emit("FromAPI", waveId);
 };
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
