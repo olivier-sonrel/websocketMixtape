@@ -13,6 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "i2c-bus": "^5.2.2",
     "onoff": "^6.0.3",
     "socket.io": "^4.1.2"
@@ -23,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/olivier-sonrel/websocketMixtape/issues"
   },
-  "homepage": "https://github.com/olivier-sonrel/websocketMixtape#readme"
+  "homepage": "https://github.com/olivier-sonrel/websocketMixtape#readme",
+  "devDependencies": {
+    "formidable": "^1.2.2"
+  }
 }
