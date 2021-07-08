@@ -79,7 +79,8 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 const upload = express();
 const fileUpload = require("express-fileupload");
 const fs = require('fs');
-const newpath = __dirname + "/public/samples/";
+const publicPath = "/public/samples/";
+const newpath = __dirname + publicPath;
 const directoryPath = newpath;
 
 upload.use(cors());
@@ -108,7 +109,7 @@ upload.post("/local_list", (req, res) => {
         //listing all files using forEach
         res.writeHead(200, {'Content-Type': 'application/json'});
         let filesData = [];
-        files.forEach(file => filesData.push(directoryPath + file));
+        files.forEach(file => filesData.push('https://localhost:5000' + publicPath + file));
         res.end(JSON.stringify(filesData));
       }
     });
