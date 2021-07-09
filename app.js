@@ -45,10 +45,10 @@ const io = socketIo(server, {
 let interval;
 
 io.on("connection", (socket) => {
-  //const i2c1 = i2c.openSync(1);
-/!*  let dataX = 1;
-  let dataY = 1;*!/
-  let lightvalue = 0; //static variable for current status
+/*  const i2c1 = i2c.openSync(1);
+  let dataX = 1;
+  let dataY = 1;
+  let lightvalue = 0; //static variable for current status*/
   console.log("New client connected");
   if (interval) {
     clearInterval(interval);
