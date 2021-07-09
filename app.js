@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
 const getApiAndEmit = socket => {
   // const now = new Date();
   const i2c1 = i2c.openSync(1);
-  let dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]));
+  let dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]))/12;
   console.log('data X', dataX);
   socket.emit("FromAPI", dataX);
   // let dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
@@ -185,7 +185,7 @@ myRouter.route('/sample_list')
   .filter(item => !item.isDirectory())
   .map(item => item.name);
   res.end(JSON.stringify(files));
-  res.json(files);
+  //res.json(files);
 })
 
 myRouter.use(cors());
