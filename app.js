@@ -71,7 +71,7 @@ const getApiAndEmit = socket => {
   if(dataX > 25001 && dataX < 45000) {
     dataX = (dataX)/9;
   }
-  if(dataX > 45001 && dataX < 65000) {
+  if(dataX > 45001 && dataX < 100000) {
     dataX = (dataX)/6;
   }
   console.log('data X', dataX);
