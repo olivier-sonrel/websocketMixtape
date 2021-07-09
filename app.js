@@ -64,7 +64,16 @@ io.on("connection", (socket) => {
 const getApiAndEmit = socket => {
   // const now = new Date();
   const i2c1 = i2c.openSync(1);
-  let dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]))/12;
+  let dataX = (i2c1.readWordSync(ADS7830, CHANNELS[0]));
+  if(dataX < 25000) {
+    dataX = (dataX)/12;
+  }
+  if(dataX > 25001 && dataX < 45000) {
+    dataX = (dataX)/9;
+  }
+  if(dataX > 45001 && dataX < 65000) {
+    dataX = (dataX)/6;
+  }
   console.log('data X', dataX);
   socket.emit("FromAPI", dataX);
   // let dataY = (i2c1.readWordSync(ADS7830, CHANNELS[1]) - 5911) / 60;
